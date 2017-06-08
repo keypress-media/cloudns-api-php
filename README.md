@@ -3,6 +3,22 @@ ClouDNS API Library
 
 This is a wrapper library for the ClouDNS API to be used by PHP applications. It tries to ease the integration of the API into your applications by handling all interactions with API and providing a simple interface to interact with.
 
+
+
+Installation
+-------------------------------
+Add this requirement to your `composer.json` file and run `composer.phar install`:
+
+    {
+        "require": {
+            "tvorwachs/phpass": "v0.3.0"
+        }
+    }
+
+or
+
+run `composer require tvorwachs/phpass`
+
 Getting Started
 -------------------------------
 To begin using the Library, the cloudns.php must be included in your application.

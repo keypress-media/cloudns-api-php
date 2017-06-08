@@ -1,0 +1,24 @@
+{
+  "name": "tvorwachs/cloudns-api-php",
+  "type": "library",
+  "time" : "2016-09-09",
+  "license" : "The MIT License (MIT)",
+  "description": "This is a wrapper library for the ClouDNS API to be used by PHP applications.",
+  "keywords": ["api", "cloudns"],
+  "homepage": "http://github.com/lovelins12/phpass/",
+  "authors": [
+    {
+      "name" : "Luis Rodriguez"
+    },
+    {
+      "name" : "Tobias Vorwachs",
+      "email": "tobias@vorwachs.com"
+    }
+  ],
+  "require": {
+    "php": ">=7"
+  },
+  "autoload": {
+    "psr-0": {"tvorwachs": "src/"}
+  }
+}
