@@ -14,14 +14,14 @@ class ClouDNS
     /**
 	 * API credential information required to execute requests
 	 */
-    protected static $apiUrl = 'https://api.cloudns.net/';
-    protected static $authId;
-    protected static $authPassword;
+    private $apiUrl = 'https://api.cloudns.net/';
+    private $authId;
+    private $authPassword;
 	
 	/**
 	 * Verify SSL connection
 	 */
-    protected static $sslCheck = true;
+	private $sslCheck = true;
 	
     /**
 	 * storage for API responses
@@ -33,15 +33,14 @@ class ClouDNS
 	 * @param $options
      * @return array
 	 */
-	public static  function setOptions(Array $options = array()){
-		self::$apiUrl = isset($options['apiUrl']) ? $options['apiUrl'] : self::$apiUrl;
-        self::$authId = isset($options['authId']) ? $options['authId'] : self::$authId;
-        self::$sslCheck = isset($options['sslCheck']) ? $options['sslCheck'] : self::$sslCheck;
-        self::$authPassword = isset($options['authPassword']) ? $options['authPassword'] : self::$authPassword;
+	public function setOptions(Array $options = array()){
+		$this->apiUrl = isset($options['apiUrl']) ? $options['apiUrl'] : $this->apiUrl;
+		$this->authId = isset($options['authId']) ? $options['authId'] : $this->authId;
+        $this->sslCheck = isset($options['sslCheck']) ? $options['sslCheck'] : $this->sslCheck;
+		$this->authPassword = isset($options['authPassword']) ? $options['authPassword'] : $this->authPassword;
 		
 		/* Check if login still works */
-		$api = new ClouDNS();
-		$status = $api->login();
+		$status = $this->login();
 		if($status['status'] != 'Success') return $status;
 		
 		
@@ -51,14 +50,14 @@ class ClouDNS
 	/**
 	 * Test login details
 	 */
-    protected function login(){
+	private function login(){
 		$get = array(
-			'auth-id' => self::$authId,
-			'auth-password' => self::$authPassword
+			'auth-id' => $this->authId,
+			'auth-password' => $this->authPassword
 		);
 		
 		/* Clean options for GET */
-		$get_string = $this->urlEncode($get);
+		$get_string = $this->url_encode($get);
 		
 		/* Connect */
 		$result = $this->connect($get_string,'dns/login.json');
@@ -78,12 +77,79 @@ class ClouDNS
         curl_close( $ch );
         return $result;
     }
+
+	/**
+	 * Get a list with available domain name servers.
+	 * @return array
+	 */
+	public function listNameServers(){
+		$get_string = $this->url_encode($this->getAuth());
+		$result = $this->connect($get_string,'dns/available-name-servers.json');
+		return json_decode($result,true);
+	}
+
+	/**
+	 * Gets a list with zones you have or zone names matching a keyword. The method works with pagination. Reverse zones are included.
+	 * @param $page - Current page your zone list is on
+	 * @param $rows - Results per page. Can be 10, 20, 30, 50 or 100.
+	 * @param $search - Domain name, reverse zone name or keyword to search for in the zone names
+	 * @return array('Pages','Data' => Array)
+	 */
+	public function listZones($page = 1, $rows = 10, $search = null){
+		$get = $this->getAuth();
+
+		/* Validate the params, default if fail */
+		$get['page'] = intval($page) > 0 ? intval($page) : 1;
+		$get['rows-per-page'] = in_array(intval($rows), array(10,20,30,50,100)) ? intval($rows) : 10;
+		if($search != null) $get['search'] =  $search;
+
+		/* Run the connection and get result for page count */
+		$get_string = $this->url_encode($get);
+		$pg_result = $this->connect($get_string,'dns/get-pages-count.json');
+
+		/* Run the connection and get result */
+		$get_string = $this->url_encode($get);
+		$result = $this->connect($get_string,'dns/list-zones.json');
+
+		return array('Pages'=>json_decode($pg_result,true),'Data'=>json_decode($result,true));
+	}
+
+	/**
+	 * Gets the number of the zones you have and the zone limit of your customer plan. Reverse zones are included.
+	 * @return array
+	 */
+	public function listZoneStats(){
+		$get_string = $this->url_encode($this->getAuth());
+		$result = $this->connect($get_string,'dns/get-zones-stats.json');
+		return json_decode($result,true);
+	}
+
+	/**
+	 * This function is available only for slave zones, master zones and cloud/bulk domains. Works with reverse zones too.
+	 * @param $domain
+	 * @return array
+	 */
+	public function deleteDomainZone($domain){
+		$get = $this->getAuth();
+
+		if(filter_var($domain, FILTER_VALIDATE_IP,FILTER_FLAG_IPV4)){
+			$get['domain-name'] = $domain.'.in-addr.arpa';
+		}elseif(filter_var($domain, FILTER_VALIDATE_IP,FILTER_FLAG_IPV6)){
+			$get['domain-name'] = $domain.'.ip6.arpa';
+		}else{
+			$get['domain-name'] = $domain;
+		}
+
+		$get_string = $this->url_encode($get);
+		$result = $this->connect($get_string,'dns/delete.json');
+		return json_decode($result,true);
+	}
 	
 	/**
 	 * Returns the GET array to be used for authentication
 	 */
-	protected function getAuth(){
-		return array('auth-id' => self::$authId,'auth-password' => self::$authPassword);
+	private function getAuth(){
+		return array('auth-id' => $this->authId,'auth-password' => $this->authPassword);
 	}
 	
 	/** 
@@ -92,11 +158,11 @@ class ClouDNS
 	 * @param $directory (optional) - The directory of the api you are calling dns/ or domains/
 	 * @return mixed
 	 */
-    protected function connect($get_string, $directory = 'dns/'){
-		$request = curl_init(self::$apiUrl.$directory.'?'.$get_string); // initiate curl object
+	private function connect($get_string, $directory = 'dns/'){
+		$request = curl_init($this->apiUrl.$directory.'?'.$get_string); // initiate curl object
 			curl_setopt($request, CURLOPT_HEADER, 0); // set to 0 to eliminate header info from response
 			curl_setopt($request, CURLOPT_RETURNTRANSFER, 1); // Returns response data instead of TRUE(1)
-			curl_setopt($request, CURLOPT_SSL_VERIFYPEER, self::$sslCheck); // uncomment this line if you get no gateway response.
+			curl_setopt($request, CURLOPT_SSL_VERIFYPEER, $this->sslCheck); // uncomment this line if you get no gateway response.
 			$this->Response = curl_exec($request); // execute curl post and store results in $post_response
 		curl_close ($request); // close curl object
 		
@@ -106,8 +172,11 @@ class ClouDNS
 	/** 
 	 * This section takes the input fields and converts them to the proper format
 	 * for an http post.  For example: "auth_id=username&auth_password=a1B2c3D4"
+     *
+     * @param $get_values array
+     * @return string
 	 */
-    protected function urlEncode(Array $get_values = array()){
+	private function url_encode(Array $get_values = array()){
 		$get_string = "";
 		foreach( $get_values as $key => $value ){
 			$get_string .= "$key=" . urlencode( $value ) . "&";
