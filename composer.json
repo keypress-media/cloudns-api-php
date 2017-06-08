@@ -5,7 +5,7 @@
   "license" : "The MIT License (MIT)",
   "description": "This is a wrapper library for the ClouDNS API to be used by PHP applications.",
   "keywords": ["api", "cloudns"],
-  "homepage": "http://github.com/lovelins12/phpass/",
+  "homepage": "http://github.com/lovelins12/cloudns-api-php/",
   "authors": [
     {
       "name" : "Luis Rodriguez"

@@ -23,15 +23,15 @@ Getting Started
 -------------------------------
 To begin using the Library, the cloudns.php must be included in your application.
 
-```php
-require_once('/path/to/library/cloudns.php');
+```
+use \tvorwachs\ClouDNS;
 ```
 
 An instance of the ClouDNS must be created to interact with the library. This Object is the gateway to all interactions with the library. The API password obtained from the [ClouDNS](https://www.cloudns.net/api-settings/) must be passed into the ClouDNS by calling set_options.
 
 ```php
 $cloudns = new ClouDNS();
-$cloudns->setOptions(array('auth-id' => '999','auth-password' => 'some_password'));
+$cloudns->setOptions(array('authId' => '999','authPassword' => 'some_password'));
 ```
 
 Functions
@@ -43,30 +43,26 @@ Functions
 		<th valign="top" align="left">Description</th>
 	</tr>
 	<tr>
-		<td valign="top"><code>detect_ip()</code></td>
+		<td valign="top"><code>detectIp()</code></td>
 		<td valign="top">Determine our IP address</td>
 	</tr>
 	<tr>
-		<td valign="top"><code>list_name_servers()</code></td>
+		<td valign="top"><code>listNameServers()</code></td>
 		<td valign="top">Get a list with available domain name servers.</td>
 	</tr>
 	<tr>
-		<td valign="top"><code>list_zones(page,rows,search[optional])</code></td>
+		<td valign="top"><code>listZones(page,rows,search[optional])</code></td>
 		<td valign="top">Gets a paginated list with zones you have or zone names matching a keyword.</td>
 	</tr>
 	<tr>
-		<td valign="top"><code>list_zone_stats()</code></td>
+		<td valign="top"><code>listZoneStats()</code></td>
 		<td valign="top">Gets the number of the zones you have and the zone limit of your customer plan. Reverse zones are included.</td>
 	</tr>
 	<tr>
-		<td valign="top"><code>delete_domain_zone(domain)</code></td>
+		<td valign="top"><code>deleteDomainZone(domain)</code></td>
 		<td valign="top">This function is available only for slave zones, master zones and cloud/bulk domains. Works with reverse zones too.</td>
 	</tr>
 </table>
-
-Examples
--------------------------------
-Numerous examples have been provided in the repository's examples folder. The examples demonstrate how to accomplish most actions possible in the library. You are encouraged to look at these examples to learn the best practices for using the library.
 
 Reporting Issues/Contributing
 -------------------------------
