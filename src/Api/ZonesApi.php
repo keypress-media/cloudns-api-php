@@ -21,7 +21,7 @@ class ZonesApi extends Connection
      */
     public function records()
     {
-        if(!$this->records) $this->records = new RecordsApi($class);
+        if(!$this->records) $this->records = new RecordsApi($this);
         return $this->records;
     }
 
