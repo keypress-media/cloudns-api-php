@@ -24,7 +24,7 @@ Getting Started
 To begin using the Library, the cloudns.php must be included in your application.
 
 ```
-use \tvorwachs\ClouDNS;
+use tvorwachs\ClouDNS;
 ```
 
 An instance of the ClouDNS must be created to interact with the library. This Object is the gateway to all interactions with the library. The API password obtained from the [ClouDNS](https://www.cloudns.net/api-settings/) must be passed into the ClouDNS by calling set_options.
