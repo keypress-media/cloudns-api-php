@@ -8,7 +8,7 @@ use IPTools\IP;
  * @author Luis Rodriguez
  * @author Tobias Vorwachs
  */
-abstract class Connection
+class Connection
 {
 
     /**
