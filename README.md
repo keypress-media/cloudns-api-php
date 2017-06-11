@@ -11,7 +11,7 @@ Add this requirement to your `composer.json` file and run `composer.phar install
 
     {
         "require": {
-            "tvorwachs/cloudns-api-php": "v0.1.0"
+            "tvorwachs/cloudns-api-php": "*@dev-master"
         }
     }
 
@@ -31,7 +31,7 @@ An instance of the ClouDNS must be created to interact with the library. This Ob
 
 ```php
 $cloudns = new ClouDNS();
-$cloudns->setOptions(array('authId' => '999','authPassword' => 'some_password'));
+$cloudns->setOptions(array('authId' => '999','authPassword' => 'some_password', 'authType' => 'auth-id'));
 ```
 
 Functions
