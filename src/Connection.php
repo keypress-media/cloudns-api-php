@@ -1,6 +1,7 @@
 <?php
 
 namespace tvorwachs\ClouDNS;
+use IPTools\IP;
 
 /**
  * @copyright 2014 Techreanimate
@@ -123,10 +124,8 @@ abstract class Connection
 
     protected function getDomain($domain)
     {
-        if (filter_var($domain, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4))
-            return $domain . '.in-addr.arpa'; //TODO
-        elseif (filter_var($domain, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6))
-            return $domain . '.ip6.arpa'; //TODO
+        if (filter_var($domain, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6))
+            return IP::parse($domain)->reversePointer;
 
         return $domain;
     }
