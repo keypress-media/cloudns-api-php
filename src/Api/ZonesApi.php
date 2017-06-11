@@ -1,15 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: tvorwachs
- * Date: 11.06.2017
- * Time: 12:54
- */
 
 namespace tvorwachs\ClouDNS\Api;
 
 use tvorwachs\ClouDNS\Connection;
 
+/**
+ * @copyright 2014 Techreanimate
+ * @author Luis Rodriguez
+ * @author Tobias Vorwachs
+ */
 class ZonesApi extends Connection
 {
 

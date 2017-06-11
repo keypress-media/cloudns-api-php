@@ -1,14 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: tvorwachs
- * Date: 08.06.2017
- * Time: 18:31
- */
 
 namespace tvorwachs\ClouDNS;
 
-
+/**
+ * @copyright 2014 Techreanimate
+ * @author Luis Rodriguez
+ * @author Tobias Vorwachs
+ */
 abstract class Connection
 {
 

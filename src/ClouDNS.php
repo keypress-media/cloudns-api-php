@@ -5,7 +5,6 @@ namespace tvorwachs\ClouDNS;
 use tvorwachs\ClouDNS\Api;
 
 /**
- * ClouDNS API class
  * @copyright 2014 Techreanimate
  * @author Luis Rodriguez
  * @author Tobias Vorwachs
