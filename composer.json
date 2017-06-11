@@ -23,6 +23,8 @@
     "theseer/phpdox": "*"
   },
   "autoload": {
-    "psr-0": {"tvorwachs": "src/"}
+    "psr-4": {
+      "tvorwachs\\": "src/tvorwachs/"
+    }
   }
 }
