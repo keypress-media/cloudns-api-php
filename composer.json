@@ -19,6 +19,9 @@
     "php": ">=7",
     "s1lentium/iptools": "v1.*"
   },
+  "require-dev": {
+    "theseer/phpdox": "*"
+  },
   "autoload": {
     "psr-0": {"tvorwachs": "src/"}
   }

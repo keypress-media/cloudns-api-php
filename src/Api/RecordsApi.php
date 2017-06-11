@@ -37,6 +37,13 @@ class RecordsApi extends Connection
      * Add new record to domain zone.
      * Note: This function is available only for master zones. Works with reverse zones too.
      *
+     *
+     * @param string $domain
+     * @param string $recordType
+     * @param string $host
+     * @param string $record
+     * @param integer $ttl
+     * @param array $options
      * More Options ($options-Array):
      * priority - Integer - Priority for MX or SRV record
      * weight - Integer - Weight for SRV record
@@ -56,13 +63,8 @@ class RecordsApi extends Connection
      * caa_flag - Integer - 0 - Non critical or 128 - Critical
      * caa_type - String - Type of CAA record. The available flags are issue, issuewild, iodef.
      * caa_value - String - If caa_type is issue, caa_value can be hostname or ";". If caa_type is issuewild, it can be hostname or ";". If caa_type is iodef, it can be "mailto:someemail@address.tld, http://example.tld or http://example.tld.
+
      *
-     * @param string $domain
-     * @param string $recordType
-     * @param string $host
-     * @param string $record
-     * @param integer $ttl
-     * @param array $options
      * @return array
      */
     public function addRecord($domain, $recordType, $host, $record, $ttl, $options = [])
@@ -86,9 +88,14 @@ class RecordsApi extends Connection
 
     /**
      * Modify record in domain zone.
-     * Note 1: This function is available only for master zones. Works with reverse zones too.
-     * Note 2: With this function you can't modify the record type.
+     * Note: This function is available only for master zones. Works with reverse zones too. With this function you can't modify the record type.
      *
+     * @param string $domain
+     * @param integer $recordId
+     * @param string $host
+     * @param string $record
+     * @param integer $ttl
+     * @param array $options
      * More Options ($options-Array):
      * priority - Integer - Priority for MX or SRV record
      * weight - Integer - Weight for SRV record
@@ -107,13 +114,6 @@ class RecordsApi extends Connection
      * caa_flag - Integer - 0 - Non critical or 128 - Critical
      * caa_type - String - Type of CAA record. The available flags are issue, issuewild, iodef.
      * caa_value - String - If caa_type is issue, caa_value can be hostname or ";". If caa_type is issuewild, it can be hostname or ";". If caa_type is iodef, it can be "mailto:someemail@address.tld, http://example.tld or http://example.tld.
-     *
-     * @param string $domain
-     * @param integer $recordId
-     * @param string $host
-     * @param string $record
-     * @param integer $ttl
-     * @param array $options
      * @return array
      */
     public function modifyRecord($domain, $recordId, $host, $record, $ttl, $options = [])
