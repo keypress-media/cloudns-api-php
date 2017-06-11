@@ -18,6 +18,7 @@ abstract class Connection
     protected $apiUrl = 'https://api.cloudns.net/';
     protected $authId;
     protected $authPassword;
+    protected $authType = "auth-id";
 
     /**
      * Verify SSL connection
@@ -30,6 +31,18 @@ abstract class Connection
     public $Response;
 
     /**
+     * Connection constructor.
+     * @param Connection|null $class
+     */
+    public function __construct(Connection $class = null)
+    {
+        $this->apiUrl = $class->apiUrl;
+        $this->authId = $class->authId;
+        $this->authPassword = $class->authPassword;
+        $this->sslCheck = $class->sslCheck;
+    }
+
+    /**
      * Pass in options to set as an array
      * @param $options
      * @return array
@@ -38,6 +51,7 @@ abstract class Connection
     {
         $this->apiUrl = isset($options['apiUrl']) ? $options['apiUrl'] : $this->apiUrl;
         $this->authId = isset($options['authId']) ? $options['authId'] : $this->authId;
+        $this->authType = isset($options['authType']) && in_array($options['authType'], ['auth-id', 'sub-auth-id', 'sub-auth-user'])? $options['authType'] : $this->authType;
         $this->sslCheck = isset($options['sslCheck']) ? $options['sslCheck'] : $this->sslCheck;
         $this->authPassword = isset($options['authPassword']) ? $options['authPassword'] : $this->authPassword;
 
@@ -54,10 +68,7 @@ abstract class Connection
      */
     protected function login()
     {
-        $get = array(
-            'auth-id' => $this->authId,
-            'auth-password' => $this->authPassword
-        );
+        $get = $this->getAuth();
 
         /* Clean options for GET */
         $get_string = $this->url_encode($get);
@@ -109,9 +120,8 @@ abstract class Connection
      */
     protected function getAuth()
     {
-        return array('auth-id' => $this->authId, 'auth-password' => $this->authPassword);
+        return array($this->authType => $this->authId, 'auth-password' => $this->authPassword);
     }
-
 
     protected function getDomain($domain)
     {
