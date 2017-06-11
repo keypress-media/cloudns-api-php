@@ -17,7 +17,7 @@
   ],
   "require": {
     "php": ">=7",
-    "s1lentium/iptools": "*"
+    "s1lentium/iptools": "v1.*"
   },
   "autoload": {
     "psr-0": {"tvorwachs": "src/"}
