@@ -111,4 +111,15 @@ abstract class Connection
     {
         return array('auth-id' => $this->authId, 'auth-password' => $this->authPassword);
     }
+
+
+    protected function getDomain($domain)
+    {
+        if (filter_var($domain, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4))
+            return $domain . '.in-addr.arpa'; //TODO
+        elseif (filter_var($domain, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6))
+            return $domain . '.ip6.arpa'; //TODO
+
+        return $domain;
+    }
 }

@@ -79,17 +79,11 @@ class ClouDNS extends Connection
      * @param $domain
      * @return array
      */
-    public function deleteDomainZone($domain)
+    public function deleteZone($domain)
     {
         $get = $this->getAuth();
 
-        if (filter_var($domain, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
-            $get['domain-name'] = $domain . '.in-addr.arpa';
-        } elseif (filter_var($domain, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
-            $get['domain-name'] = $domain . '.ip6.arpa';
-        } else {
-            $get['domain-name'] = $domain;
-        }
+        $get['domain-name'] = $this->getDomain($domain);
 
         $get_string = $this->url_encode($get);
         $result = $this->connect($get_string, 'dns/delete.json');
@@ -102,19 +96,13 @@ class ClouDNS extends Connection
      * @param string $zone_type
      * @param array $ns
      * @param string $master_ip
-     * @return mixed
+     * @return array
      */
-    public function registerDomainZone($domain, $zone_type, $ns = array(), $master_ip = "")
+    public function registerZone($domain, $zone_type, $ns = array(), $master_ip = "")
     {
         $get = $this->getAuth();
 
-        if (filter_var($domain, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
-            $get['domain-name'] = $domain . '.in-addr.arpa';
-        } elseif (filter_var($domain, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
-            $get['domain-name'] = $domain . '.ip6.arpa';
-        } else {
-            $get['domain-name'] = $domain;
-        }
+        $get['domain-name'] = $this->getDomain($domain);
 
         $get['zone-type'] = $zone_type;
 
@@ -123,6 +111,100 @@ class ClouDNS extends Connection
 
         $get_string = $this->url_encode($get);
         $result = $this->connect($get_string, 'dns/register.json');
+        return json_decode($result, true);
+    }
+
+    /**
+     * Get the count of the mail servers you have and the mail forwards limit.
+     * @return array
+     */
+    public function listMailForwardStats()
+    {
+        $get_string = $this->url_encode($this->getAuth());
+        $result = $this->connect($get_string, 'dns/get-mail-forwards-stats.json');
+        return json_decode($result, true);
+    }
+
+    /**
+     * Get zone information, like status, is it master or slave, is it forward or reverse, is it a cloud domain and which zone is its master
+     * @param string $domain
+     * @return array
+     */
+    public function getZoneInfo($domain)
+    {
+        $get = $this->getAuth();
+
+        $get['domain-name'] = $this->getDomain($domain);
+
+        $get_string = $this->url_encode($get);
+        $result = $this->connect($get_string, 'dns/get-zone-info.json');
+        return json_decode($result, true);
+    }
+
+    /**
+     * Update zone
+     * @param string $domain
+     * @return array
+     */
+    public function updateZone($domain)
+    {
+        $get = $this->getAuth();
+
+        $get['domain-name'] = $this->getDomain($domain);
+
+        $get_string = $this->url_encode($get);
+        $result = $this->connect($get_string, 'dns/update-zone.json');
+        return json_decode($result, true);
+    }
+
+    /**
+     * Get a list with name servers and information for update status of the domain name. Works with reverse zones too.
+     * @param string $domain
+     * @return array
+     */
+    public function getUpdateStatusZone($domain)
+    {
+        $get = $this->getAuth();
+
+        $get['domain-name'] = $this->getDomain($domain);
+
+        $get_string = $this->url_encode($get);
+        $result = $this->connect($get_string, 'dns/update-status.json');
+        return json_decode($result, true);
+    }
+
+    /**
+     * Get a list with name servers and information for update status of the domain name. Works with reverse zones too.
+     * @param string $domain
+     * @return array
+     */
+    public function isZoneUpdated($domain)
+    {
+        $get = $this->getAuth();
+
+        $get['domain-name'] = $this->getDomain($domain);
+
+        $get_string = $this->url_encode($get);
+        $result = $this->connect($get_string, 'dns/is-updated.json');
+        return json_decode($result, true);
+    }
+
+    /**
+     * Get a list with name servers and information for update status of the domain name. Works with reverse zones too.
+     * @param string $domain
+     * @param integer $status
+     * @return array
+     */
+    public function setZoneStatus($domain, $status = null)
+    {
+        $get = $this->getAuth();
+
+        $get['domain-name'] = $this->getDomain($domain);
+
+        if($status !== null && in_array($status, [0, 1])) $get['status'] = $status;
+
+        $get_string = $this->url_encode($get);
+        $result = $this->connect($get_string, 'dns/change-status.json');
         return json_decode($result, true);
     }
 }

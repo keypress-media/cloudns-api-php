@@ -37,32 +37,7 @@ $cloudns->setOptions(array('authId' => '999','authPassword' => 'some_password'))
 Functions
 -------------------------------
 
-<table width="100%">
-	<tr>
-		<th valign="top" width="120px" align="left">Function</th>
-		<th valign="top" align="left">Description</th>
-	</tr>
-	<tr>
-		<td valign="top"><code>detectIp()</code></td>
-		<td valign="top">Determine our IP address</td>
-	</tr>
-	<tr>
-		<td valign="top"><code>listNameServers()</code></td>
-		<td valign="top">Get a list with available domain name servers.</td>
-	</tr>
-	<tr>
-		<td valign="top"><code>listZones(page,rows,search[optional])</code></td>
-		<td valign="top">Gets a paginated list with zones you have or zone names matching a keyword.</td>
-	</tr>
-	<tr>
-		<td valign="top"><code>listZoneStats()</code></td>
-		<td valign="top">Gets the number of the zones you have and the zone limit of your customer plan. Reverse zones are included.</td>
-	</tr>
-	<tr>
-		<td valign="top"><code>deleteDomainZone(domain)</code></td>
-		<td valign="top">This function is available only for slave zones, master zones and cloud/bulk domains. Works with reverse zones too.</td>
-	</tr>
-</table>
+coming soon in wiki...
 
 Reporting Issues/Contributing
 -------------------------------
