@@ -4,7 +4,7 @@
   "time" : "2016-09-09",
   "license" : "The MIT License (MIT)",
   "description": "This is a wrapper library for the ClouDNS API to be used by PHP applications.",
-  "keywords": ["api", "cloudns"],
+  "keywords": ["api", "cloudns", "php"],
   "homepage": "http://github.com/lovelins12/cloudns-api-php/",
   "authors": [
     {
