@@ -35,6 +35,8 @@ abstract class Connection
      */
     public function __construct(Connection $class = null)
     {
+        if(!$class) return;
+        
         $this->apiUrl = $class->apiUrl;
         $this->authId = $class->authId;
         $this->authPassword = $class->authPassword;
