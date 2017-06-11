@@ -3,6 +3,7 @@
 namespace tvorwachs\ClouDNS;
 
 use tvorwachs\ClouDNS\Api;
+use tvorwachs\ClouDNS\Connection;
 
 /**
  * @copyright 2014 Techreanimate
