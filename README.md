@@ -37,7 +37,7 @@ $cloudns->setOptions(array('authId' => '999','authPassword' => 'some_password', 
 Functions
 -------------------------------
 
-View at [lovelins12.github.io](https://lovelins12.github.io/cloudns-api-php/docs/api)
+View at [tobee94.github.io](https://tobee94.github.io/cloudns-api-php)
 
 Reporting Issues/Contributing
 -------------------------------
