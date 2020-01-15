@@ -111,7 +111,13 @@ abstract class Connection
     {
         $get_string = "";
         foreach ($get_values as $key => $value) {
-            $get_string .= "$key=" . urlencode($value) . "&";
+            if ( is_array( $value ) ) {
+                foreach ( $value as $val ) {
+                    $get_string .= "{$key}[]=" . urlencode($val) . "&";
+                }
+            } else {
+                $get_string .= "$key=" . urlencode($value) . "&";
+            }
         }
         return rtrim($get_string, "& ");
     }
